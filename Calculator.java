@@ -35,4 +35,13 @@ public class Calculator {
     public void setResultList(int i, int num) {
         resultList.set(i, num);
     }
+    // 계산 결과 중 첫번째 데이터 삭제
+    // private로 선언했으니 class 내부 메서드를 통해 정보를 변경한다
+    public void removeResultList() {
+        resultList.remove(0);
+    }
+    // 첫번째 말고 지정 삭제, 메서드 오버로딩
+    public void removeResultList(int i) {
+        resultList.remove(i);
+    }
 }
