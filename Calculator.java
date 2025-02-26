@@ -41,10 +41,11 @@ public class Calculator {
         resultList.remove(0);
     }
     // 첫번째 말고 지정 삭제, 메서드 오버로딩
+    // 인덱스에 들어갈 숫자는 0 <= i < resultList.size() 가 되어야함
     public void removeResultList(int i) {
-        if (i >= resultList.size()) {
-            System.out.println("입력하신 " + i + "번째 인덱스가 존재하지 않습니다.\n현재 인덱스의 크기 : "+resultList.size());
-        }else {
+        if (i >= resultList.size() || i < 0) {
+            System.out.println("입력하신 " + i + "번째 인덱스가 존재하지 않습니다.\n현재 인덱스의 크기 : " + resultList.size());
+        } else {
             resultList.remove(i);
         }
     }

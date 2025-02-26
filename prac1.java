@@ -1,5 +1,6 @@
 package example;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class prac1 {
@@ -15,15 +16,26 @@ public class prac1 {
         // 음수를 받을 경우 처음으로 돌아가서 다시 실행
         while (!exitInput.equals("exit")) { // exitInput에 exit을 제외한 기타 문자열이 들어올 시 반복
             while (true) { // 양수를 입력하기 전까지 무한 반복
-                System.out.println("enter number :");
-                num1 = in.nextInt();
-                if (num1 < 0) {
-                    System.out.println("enter number greater than 0");
-                    continue; // 현재 반복 주기의 나머지 코드를 건너뛰고 다음 반복 주기로 넘어가도록 하는 제어문
-                }
-                num2 = in.nextInt();
-                if (num2 < 0) {
-                    System.out.println("enter number greater than 0");
+                System.out.println("enter number1 :");
+                // 스캐너 버퍼를 초기화 안해주면 개행문자(\n)가 남아있어서 무한루프가 된다
+                // 1. nextLine()은 개행문자를 남기지 않으므로 처음부터 이걸 사용하거나
+                // 2. 그렇지 않을 경우 next() 또는 nextLine()으로 버퍼를 비워줘야함
+                // 1번같은 경우 정수를 문자형으로 받아서 정수로 형변환을 해줘버리는 방법도 있다
+                try {
+                    num1 = in.nextInt();
+                    if (num1 < 0) {
+                        System.out.println("enter number greater than 0");
+                        continue; // 현재 반복 주기의 나머지 코드를 건너뛰고 다음 반복 주기로 넘어가도록 하는 제어문
+                    }
+                    System.out.println("enter number2 :");
+                    num2 = in.nextInt();
+                    if (num2 < 0) {
+                        System.out.println("enter number greater than 0");
+                        continue;
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("숫자를 입력하세요");
+                    in.next(); // 버퍼 비우기 안지우면 무한루프 발생 이거때문에 개고생
                     continue;
                 }
                 break; // 둘다 양수를 입력하면 반복문 탈출
@@ -53,7 +65,7 @@ public class prac1 {
             exitInput = in.nextLine();
             if (exitInput.equals("change")) {
                 System.out.println("1. 처음 저장된 데이터 값 삭제\n2. 원하는 순서 데이터값 삭제\nPress any button to quit");
-                changenum = in.nextInt();
+                changenum  = in.nextInt();
                 // 1번 선택 시 0번 인덱스에 저장된 데이터 삭제
                 if (changenum == 1) {
                     calculator.removeResultList();
@@ -62,7 +74,6 @@ public class prac1 {
                     System.out.println("삭제하고 싶은 인덱스 값을 입력하세요.");
                     int delindex = in.nextInt();
                     calculator.removeResultList(delindex);
-                } else {
                 }
             }
         }
