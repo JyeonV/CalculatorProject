@@ -47,9 +47,24 @@ public class prac1 {
                 }
                 break; // 제대로 된 입력을 했을 시 반복문 탈출
             }
+            int changenum = 0;
             in.nextLine(); // next()에 남아있던 개행문자(엔터키) 비우기 , 버퍼 비우기
-            System.out.println("\nenter any key to continue \nenter 'exit' to quit");
+            System.out.println("\nenter any key to continue \nenter 'exit' to quit\nenter 'change' to change resultList");
             exitInput = in.nextLine();
+            if (exitInput.equals("change")) {
+                System.out.println("1. 처음 저장된 데이터 값 삭제\n2. 원하는 순서 데이터값 삭제\nPress any button to quit");
+                changenum = in.nextInt();
+                // 1번 선택 시 0번 인덱스에 저장된 데이터 삭제
+                if (changenum == 1) {
+                    calculator.removeResultList();
+                // 2번 선택 시 n번째 인덱스에 저장된 데이터 삭제
+                } else if (changenum == 2) {
+                    System.out.println("삭제하고 싶은 인덱스 값을 입력하세요.");
+                    int delindex = in.nextInt();
+                    calculator.removeResultList(delindex);
+                } else {
+                }
+            }
         }
     }
 }

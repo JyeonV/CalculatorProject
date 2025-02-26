@@ -42,6 +42,10 @@ public class Calculator {
     }
     // 첫번째 말고 지정 삭제, 메서드 오버로딩
     public void removeResultList(int i) {
-        resultList.remove(i);
+        if (i >= resultList.size()) {
+            System.out.println("입력하신 " + i + "번째 인덱스가 존재하지 않습니다.\n현재 인덱스의 크기 : "+resultList.size());
+        }else {
+            resultList.remove(i);
+        }
     }
 }
