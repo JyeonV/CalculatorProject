@@ -42,8 +42,8 @@ public class prac1 {
                 System.out.println("result = " + result);
                 System.out.print("resultList : ");
                 // 결과값이 arrayList에 잘 쌓이는지 확인용
-                for(int a = 0; a < calculator.resultList.size(); a++) {
-                    System.out.print(" " + calculator.resultList.get(a));
+                for(int a = 0; a < calculator.getResultList().size(); a++) {
+                    System.out.print(" " + calculator.getResultList().get(a));
                 }
                 break; // 제대로 된 입력을 했을 시 반복문 탈출
             }

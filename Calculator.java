@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Calculator {
     // 1. 속성
-    ArrayList<Integer> resultList = new ArrayList<>(); // 결과 저장할 컬렉션 타입 필드
+    // 접근제어자 설정
+    private ArrayList<Integer> resultList = new ArrayList<>(); // 결과 저장할 컬렉션 타입 필드
     // 2. 생성자
 
     // 3. 기능
@@ -25,5 +26,13 @@ public class Calculator {
         // 결과값을 arrayList에 추가
         resultList.add(i);
         return i;
+    }
+
+    public ArrayList<Integer> getResultList() {
+        return resultList;
+    }
+    // i번째 데이터를 num으로 변경
+    public void setResultList(int i, int num) {
+        resultList.set(i, num);
     }
 }
