@@ -45,12 +45,13 @@ public class prac1 {
             while (true) {
                 System.out.println("enter symbol(+, -, *, /) :");
                 os = in.next().charAt(0);
+                Calculator.OperatorType op = Calculator.OperatorType.fromSymbol(os); // 입력된 기호를 enum으로 전환
                 if(os != '+' && os != '-' && os != '*' && os != '/') { // 4칙 연산 기호가 아니라면 continue
                     System.out.println("wrong symbol");
                     continue;
                 }
                 // Calculator 내 메서드인 cal 호출
-                int result = calculator.cal(num1, num2, os);
+                int result = calculator.cal(num1, num2, op);
                 System.out.println("result = " + result);
                 System.out.print("resultList : ");
                 // 결과값이 arrayList에 잘 쌓이는지 확인용

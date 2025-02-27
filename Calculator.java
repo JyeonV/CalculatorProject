@@ -3,29 +3,48 @@ package example;
 import java.util.ArrayList;
 
 public class Calculator {
-    // 1. 속성
+    public enum OperatorType { // class 내부에 정의해서 사용 할 때는 public을 붙여줘야 외부에서 접근 가능
+        ADD('+'), SUBTRACT('-'), MULTIPLY('*'), DIVIDE('/');
+        // enum으로 4칙연산 기호 정리
+        private final char symbol;
+
+        OperatorType(char symbol) {
+            this.symbol = symbol;
+        }
+        //입력받은 값을로 enum을 비교해 동일한 값으로 전환
+        public static OperatorType fromSymbol(char symbol) {
+            for (OperatorType op : OperatorType.values()) {
+                if (op.symbol == symbol) {
+                    return op;
+                }
+            }
+            throw new RuntimeException("unknown operator");
+        }
+    }
     // 접근제어자 설정
     private ArrayList<Integer> resultList = new ArrayList<>(); // 결과 저장할 컬렉션 타입 필드
-    // 2. 생성자
-
-    // 3. 기능
     // 두 양수와 연산 기호를 매개변수로 받아서 연산 수행 후 값(i)를 반환
-    public int cal(int n1, int n2, char s1) {
-        int i = 0;
-        if (s1 == '+') {
-            i = n1 + n2;
-        } else if (s1 == '-') {
-            i = n1 - n2;
-        } else if (s1 == '*') {
-            i = n1 * n2;
-        } else if (s1 == '/') try {   // ArithmethicException 오류 발생 가능 부분
-            i = n1 / n2;
-        } catch (RuntimeException e) { // 오류 발생 시 예외 처리 부분
-            System.out.println("cannot divide by zero");
+    public int cal(int n1, int n2, OperatorType op) {
+        int result;
+        switch(op) {
+            case ADD :
+                result = n1 + n2;
+                break;
+            case SUBTRACT :
+                result = n1 - n2;
+                break;
+            case MULTIPLY :
+                result = n1 * n2;
+                break;
+            case DIVIDE :
+                result = n1 / n2;
+                break;
+            default :
+                throw new RuntimeException("unknown operator: " + op);
         }
         // 결과값을 arrayList에 추가
-        resultList.add(i);
-        return i;
+        resultList.add(result);
+        return result;
     }
 
     public ArrayList<Integer> getResultList() {
@@ -50,3 +69,4 @@ public class Calculator {
         }
     }
 }
+
