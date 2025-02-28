@@ -9,13 +9,11 @@ public class prac1 {
         int num1 = 0;
         int num2 = 0;
         char os = ' ';
-        String exitInput = "";
-        // calculator 객체 생성, 값이 정확하진 않지만 미리 객체를 만들어 두는 이유는 반복문이라 객체가 계속 생성될거 같아서
-        Calculator calculator = new Calculator();
-        // 양의 정수 2개를 각각 num1, num2에 전달 받기
-        // 음수를 받을 경우 처음으로 돌아가서 다시 실행
-        while (!exitInput.equals("exit")) { // exitInput에 exit을 제외한 기타 문자열이 들어올 시 반복
-            while (true) { // 양수를 입력하기 전까지 무한 반복
+        int result = 0;
+        String exitInput = ""; // calculator 객체 생성, 값이 정확하진 않지만 미리 객체를 만들어 두는 이유는 반복문이라 객체가 계속 생성될거 같아서
+        Calculator calculator = new Calculator(); // 양의 정수 2개를 각각 num1, num2에 전달 받기 , 음수를 받을 경우 처음으로 돌아가서 다시 실행
+        while (!exitInput.equals("exit")) {  // exitInput에 exit을 제외한 기타 문자열이 들어올 시 반복
+            while (true) {  // 양수를 입력하기 전까지 무한 반복
                 System.out.println("enter number1 :");
                 // 스캐너 버퍼를 초기화 안해주면 개행문자(\n)가 남아있어서 무한루프가 된다
                 // 1. nextLine()은 개행문자를 남기지 않으므로 처음부터 이걸 사용하거나
@@ -40,18 +38,21 @@ public class prac1 {
                 }
                 break; // 둘다 양수를 입력하면 반복문 탈출
             }
-            // 제대로된 기호를 입력할 때 까지 반복
-            // 0으로 나누기를 시도할 시 try-catch를 통한 예외 처리
             while (true) {
                 System.out.println("enter symbol(+, -, *, /) :");
                 os = in.next().charAt(0);
-                Calculator.OperatorType op = Calculator.OperatorType.fromSymbol(os); // 입력된 기호를 enum으로 전환
-                if(os != '+' && os != '-' && os != '*' && os != '/') { // 4칙 연산 기호가 아니라면 continue
-                    System.out.println("wrong symbol");
-                    continue;
+                Calculator.OperatorType op;
+                try { // 설정된 4가지 기호 이외의 입력시 오류 발생 처리문
+                    op = Calculator.OperatorType.fromSymbol(os); // 입력된 기호를 enum으로 전환
+                } catch (RuntimeException e) {
+                    System.out.println("wrong operator");
+                    continue; // 오류 내용 전달과 함께 다시 입력하도록 반복
                 }
-                // Calculator 내 메서드인 cal 호출
-                int result = calculator.cal(num1, num2, op);
+                try { // n2에 0이 입력되서 0으로 나누기를 시도했을때 오류 발생
+                    result = calculator.cal(num1, num2, op);
+                } catch (RuntimeException e) { // 오류 내용 전달 및 처음부터 다시 입력
+                    System.out.println("cant divide by zero");
+                }
                 System.out.println("result = " + result);
                 System.out.print("resultList : ");
                 // 결과값이 arrayList에 잘 쌓이는지 확인용
@@ -67,11 +68,9 @@ public class prac1 {
             if (exitInput.equals("change")) {
                 System.out.println("1. 처음 저장된 데이터 값 삭제\n2. 원하는 순서 데이터값 삭제\nPress any button to quit");
                 changenum  = in.nextInt();
-                // 1번 선택 시 0번 인덱스에 저장된 데이터 삭제
-                if (changenum == 1) {
+                if (changenum == 1) {  // 1번 선택 시 0번 인덱스에 저장된 데이터 삭제
                     calculator.removeResultList();
-                // 2번 선택 시 n번째 인덱스에 저장된 데이터 삭제
-                } else if (changenum == 2) {
+                } else if (changenum == 2) {  // 2번 선택 시 n번째 인덱스에 저장된 데이터 삭제
                     System.out.println("삭제하고 싶은 인덱스 값을 입력하세요.");
                     int delindex = in.nextInt();
                     calculator.removeResultList(delindex);

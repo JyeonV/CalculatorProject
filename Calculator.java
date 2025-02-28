@@ -37,10 +37,13 @@ public class Calculator {
                 result = n1 * n2;
                 break;
             case DIVIDE :
+                if (n2 == 0) {
+                    throw new RuntimeException(); // 0으로 나눴을때 오류 발생 시 호출한 곳에서 처리
+                }
                 result = n1 / n2;
                 break;
             default :
-                throw new RuntimeException("unknown operator: " + op);
+                throw new RuntimeException(); // 연산기호 4가지 이외의 입력 오류 발생 시 호출한 곳에서 처리
         }
         // 결과값을 arrayList에 추가
         resultList.add(result);
