@@ -1,60 +1,65 @@
 package example;
 
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Calculator {
+    // 접근제어자 설정
+    private ArrayList<Double> resultList = new ArrayList<>(); // 결과 저장할 컬렉션 타입 필드
+
     public enum OperatorType { // class 내부에 정의해서 사용 할 때는 public을 붙여줘야 외부에서 접근 가능
-        ADD('+'), SUBTRACT('-'), MULTIPLY('*'), DIVIDE('/');
+        ADD('+'), SUBTRACT('-'), MULTIPLY('*'), DIVIDE('/'), X(' ');
         // enum으로 4칙연산 기호 정리
         private final char symbol;
 
         OperatorType(char symbol) {
             this.symbol = symbol;
         }
+
         //입력받은 값을로 enum을 비교해 동일한 값으로 전환
         public static OperatorType fromSymbol(char symbol) {
-            for (OperatorType op : OperatorType.values()) {
-                if (op.symbol == symbol) {
-                    return op;
-                }
-            }
-            throw new RuntimeException("unknown operator");
+            return Arrays.stream(OperatorType.values())
+                    .filter(s -> s.symbol == symbol).findFirst().orElse(X);
+
+//            for (OperatorType op : OperatorType.values()) {
+//                if (op.symbol == symbol) {
+//                    return op;
+//                }
+//            }
+//            throw new RuntimeException("unknown operator");
         }
     }
-    // 접근제어자 설정
-    private ArrayList<Integer> resultList = new ArrayList<>(); // 결과 저장할 컬렉션 타입 필드
+
     // 두 양수와 연산 기호를 매개변수로 받아서 연산 수행 후 값(i)를 반환
-    public int cal(int n1, int n2, OperatorType op) {
-        int result;
-        switch(op) {
-            case ADD :
-                result = n1 + n2;
-                break;
-            case SUBTRACT :
-                result = n1 - n2;
-                break;
-            case MULTIPLY :
-                result = n1 * n2;
-                break;
-            case DIVIDE :
-                if (n2 == 0) {
-                    throw new RuntimeException(); // 0으로 나눴을때 오류 발생 시 호출한 곳에서 처리
+    public <T extends Number> double cal(T n1, T n2, char op) {
+        double firstVal = n1.doubleValue();
+        double secondVal = n2.doubleValue();
+
+        double result = switch (OperatorType.fromSymbol(op)) {
+            case ADD -> firstVal + secondVal; // 제네릭 타입은 연산이 불가능함
+            case SUBTRACT -> firstVal - secondVal;
+            case MULTIPLY -> firstVal * secondVal;
+            case DIVIDE -> {
+                if (secondVal == 0) {
+                    throw new ArithmeticException();
                 }
-                result = n1 / n2;
-                break;
-            default :
-                throw new RuntimeException(); // 연산기호 4가지 이외의 입력 오류 발생 시 호출한 곳에서 처리
-        }
+                yield firstVal / secondVal;
+            }
+            default -> 0;// 연산기호 4가지 이외의 입력 오류 발생 시 호출한 곳에서 처리
+        };
         // 결과값을 arrayList에 추가
         resultList.add(result);
         return result;
     }
 
-    public ArrayList<Integer> getResultList() {
+    public ArrayList<Double> getResultList() {
         return resultList;
     }
     // i번째 데이터를 num으로 변경
-    public void setResultList(int i, int num) {
+    public void setResultList(int i, double num) {
         resultList.set(i, num);
     }
     // 계산 결과 중 첫번째 데이터 삭제
@@ -70,6 +75,10 @@ public class Calculator {
         } else {
             resultList.remove(i);
         }
+    }
+    public void findGreater(double x) {
+        List<Double> ret1 = resultList.stream().filter(num -> num > x).collect(Collectors.toList());
+        System.out.println(ret1);
     }
 }
 

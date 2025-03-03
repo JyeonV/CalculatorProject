@@ -6,10 +6,10 @@ import java.util.Scanner;
 public class prac1 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        int num1 = 0;
-        int num2 = 0;
+        double num1 = 0;
+        double num2 = 0;
         char os = ' ';
-        int result = 0;
+        double result = 0;
         String exitInput = ""; // calculator 객체 생성, 값이 정확하진 않지만 미리 객체를 만들어 두는 이유는 반복문이라 객체가 계속 생성될거 같아서
         Calculator calculator = new Calculator(); // 양의 정수 2개를 각각 num1, num2에 전달 받기 , 음수를 받을 경우 처음으로 돌아가서 다시 실행
         while (!exitInput.equals("exit")) {  // exitInput에 exit을 제외한 기타 문자열이 들어올 시 반복
@@ -20,20 +20,20 @@ public class prac1 {
                 // 2. 그렇지 않을 경우 next() 또는 nextLine()으로 버퍼를 비워줘야함
                 // 1번같은 경우 정수를 문자형으로 받아서 정수로 형변환을 해줘버리는 방법도 있다
                 try {
-                    num1 = in.nextInt();
+                    num1 = in.nextDouble();
                     if (num1 < 0) {
                         System.out.println("enter number greater than 0");
                         continue; // 현재 반복 주기의 나머지 코드를 건너뛰고 다음 반복 주기로 넘어가도록 하는 제어문
                     }
                     System.out.println("enter number2 :");
-                    num2 = in.nextInt();
+                    num2 = in.nextDouble();
                     if (num2 < 0) {
                         System.out.println("enter number greater than 0");
                         continue;
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("숫자를 입력하세요");
-                    in.next(); // 버퍼 비우기 안지우면 무한루프 발생 이거때문에 개고생
+                    in.nextLine(); // 버퍼 비우기 안지우면 무한루프 발생 이거때문에 개고생
                     continue;
                 }
                 break; // 둘다 양수를 입력하면 반복문 탈출
@@ -49,7 +49,7 @@ public class prac1 {
                     continue; // 오류 내용 전달과 함께 다시 입력하도록 반복
                 }
                 try { // n2에 0이 입력되서 0으로 나누기를 시도했을때 오류 발생
-                    result = calculator.cal(num1, num2, op);
+                    result = calculator.cal(num1, num2, os);
                 } catch (RuntimeException e) { // 오류 내용 전달 및 처음부터 다시 입력
                     System.out.println("cant divide by zero");
                 }
@@ -66,7 +66,7 @@ public class prac1 {
             System.out.println("\nenter any key to continue \nenter 'exit' to quit\nenter 'change' to change resultList");
             exitInput = in.nextLine();
             if (exitInput.equals("change")) {
-                System.out.println("1. 처음 저장된 데이터 값 삭제\n2. 원하는 순서 데이터값 삭제\nPress any button to quit");
+                System.out.println("1. 처음 저장된 데이터 값 삭제\n2. 원하는 순서 데이터값 삭제\n3. 연산결과 중 입력받은 값보다 큰 결과값 출력 \nPress any button to quit");
                 changenum  = in.nextInt();
                 if (changenum == 1) {  // 1번 선택 시 0번 인덱스에 저장된 데이터 삭제
                     calculator.removeResultList();
@@ -74,6 +74,10 @@ public class prac1 {
                     System.out.println("삭제하고 싶은 인덱스 값을 입력하세요.");
                     int delindex = in.nextInt();
                     calculator.removeResultList(delindex);
+                } else if (changenum == 3) {  // 3번 선택 시
+                    System.out.println("숫자를 입력하세요.");
+                    double x = in.nextInt();
+                    calculator.findGreater(x);
                 }
             }
         }
