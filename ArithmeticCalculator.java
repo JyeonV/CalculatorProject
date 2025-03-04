@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Calculator {
+public class ArithmeticCalculator  {
     // 접근제어자 설정
     private ArrayList<Double> resultList = new ArrayList<>(); // 결과 저장할 컬렉션 타입 필드
 
@@ -76,7 +76,6 @@ public class Calculator {
             resultList.remove(i);
         }
     }
-    // 결과값 중 입력한 값보다 큰값 찾기
     public void findGreater(double x) {
         List<Double> ret1 = resultList.stream().filter(num -> num > x).collect(Collectors.toList());
         System.out.println(ret1);

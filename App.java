@@ -3,7 +3,7 @@ package example;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class prac1 {
+public class App {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         double num1 = 0;
